@@ -53,6 +53,13 @@
             return $courses;
         }
 
+        function updateName($new_name)
+        {
+            $this->setName($new_name);
+            $exec = $GLOBALS['DB']->prepare("UPDATE students SET name = :name WHERE id = :id;");
+            $exec->execute([':name' => $this->getName(), ':id' => $this->getId()]);
+        }
+
         function delete()
         {
             $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");

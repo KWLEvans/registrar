@@ -129,6 +129,22 @@
             //Assert
             $this->assertEquals([$test_student2], $result);
         }
+
+        function test_updateName()
+        {
+            //Arrange
+            $name = "Tennyson Wunderbar";
+            $date = "2013-12-23";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            //Act
+            $test_student->updateName('Rasmus Lerdorf');
+            $result = Student::getAll()[0]->getName();
+
+            //Assert
+            $this->assertEquals('Rasmus Lerdorf', $result);
+        }
     }
 
 ?>
