@@ -49,14 +49,7 @@ class Course
             JOIN students_courses ON (students_courses.course_id = courses.id)
             JOIN students ON (students.id = students_courses.student_id)
             WHERE courses.id = {$this->getId()};");
-        $students = [];
-        foreach ($returned_students as $student) {
-            $name = $student['name'];
-            $enrollment_date = $student['enrollment_date'];
-            $id = $student['id'];
-            $new_student = new Student($name, $enrollment_date, $id);
-            array_push($students, $new_student);
-        }
+        $students = $returned_students->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student', ['name', 'enrollment_date', 'id']);
         return $students;
     }
 
@@ -69,15 +62,8 @@ class Course
 
     static function getAll()
     {
-        $courses = [];
         $returned_courses = $GLOBALS['DB']->query("SELECT * FROM courses;");
-        foreach ($returned_courses as $course) {
-            $name = $course['name'];
-            $number = $course['number'];
-            $id = $course['id'];
-            $new_course = new Course($name, $number, $id);
-            array_push($courses, $new_course);
-        }
+        $courses = $returned_courses->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Course', ['name', 'number', 'id']);
         return $courses;
     }
 

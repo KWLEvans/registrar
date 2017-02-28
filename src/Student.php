@@ -49,16 +49,14 @@
                 JOIN students_courses ON (students_courses.student_id = students.id)
                 JOIN courses ON (courses.id = students_courses.course_id)
                 WHERE students.id = {$this->getId()};");
-            $courses = [];
-            
-            foreach ($returned_courses as $course) {
-                $name = $course['name'];
-                $number = $course['number'];
-                $id = $course['id'];
-                $new_course = new Course($name, $number, $id);
-                array_push($courses, $new_course);
-            }
+            $courses = $returned_courses->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Course', ['name', 'number', 'id']);
             return $courses;
+        }
+
+        function delete()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM students WHERE id = {$this->getId()};");
+            $GLOBALS['DB']->exec("DELETE FROM students_courses WHERE student_id = {$this->getId()};");
         }
 
         function save()
@@ -70,15 +68,8 @@
 
         static function getAll()
         {
-            $students = [];
             $returned_students = $GLOBALS['DB']->query("SELECT * FROM students;");
-            foreach ($returned_students as $student) {
-                $name = $student['name'];
-                $enrollment_date = $student['enrollment_date'];
-                $id = $student['id'];
-                $new_student = new Student($name, $enrollment_date, $id);
-                array_push($students, $new_student);
-            }
+            $students = $returned_students->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student', ['name', 'enrollment_date', 'id']);
             return $students;
         }
 
