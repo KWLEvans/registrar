@@ -76,6 +76,39 @@
             //Assert
             $this->assertEquals($test_course, $result[0]);
         }
+
+        function test_getCourses()
+        {
+            //Arrange
+            $name = "Tennyson Wunderbar";
+            $date = "2013-12-23";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $name = "Sandra Handerson";
+            $date = "2016-02-12";
+            $test_Student2 = new Student($name, $date);
+            $test_Student2->save();
+
+
+            $name = "Math 2: the Sequel";
+            $number = "MAT200";
+            $test_course = new Course($name, $number);
+            $test_course->save();
+
+            $name = "Physics of School";
+            $number = "PHY001";
+            $test_course2 = new Course($name, $number);
+            $test_course2->save();
+
+            //Act
+            $test_student->addCourse($test_course->getId());
+            $test_student->addCourse($test_course2->getId());
+            $result = $test_student->getCourses();
+
+            //Assert
+            $this->assertEquals([$test_course, $test_course2], $result);
+        }
     }
 
 ?>
