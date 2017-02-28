@@ -33,6 +33,11 @@ class Course
         $this->$number = $new_number;
     }
 
+    function getId()
+    {
+        return $this->id;
+    }
+
     function save()
     {
         $exec = $GLOBALS['DB']->prepare("INSERT INTO courses (name, number) VALUES (:name, :number);");
@@ -56,7 +61,7 @@ class Course
 
     static function deleteAll()
     {
-        $GLOBALS['DB']->exec("DELETE FROM courses;");
+        $GLOBALS['DB']->exec("DELETE FROM courses;DELETE FROM students_courses;");
     }
 }
 

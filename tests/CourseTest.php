@@ -5,6 +5,7 @@
 */
 
 require_once "src/Course.php";
+require_once "src/Student.php";
 
 $server = 'mysql:host=localhost:8889;dbname=registrar_test';
 $username = 'root';
@@ -16,6 +17,7 @@ class CourseTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         Course::deleteAll();
+        Student::deleteAll();
     }
 
     function test_save()
