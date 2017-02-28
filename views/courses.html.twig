@@ -1,0 +1,20 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+    <h3>Current Courses</h3>
+
+    {% if courses is not empty %}
+    <ul>
+        {% for course in courses %}
+        <li>{{ course.getName }}
+            <ul>
+                <li>{{ course.getNumber }}</li>
+            </ul>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+{% endblock %}

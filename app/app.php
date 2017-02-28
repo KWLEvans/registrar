@@ -20,14 +20,29 @@
         return $app['twig']->render('home.html.twig');
     });
 
+    $app->get('/students', function() use ($app) {
+        return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));
+    });
+
     $app->post('/student_add', function() use ($app) {
         $name = $_POST['name'];
         $enrollment_date = $_POST['enrollment-date'];
         $new_student = new Student($name, $enrollment_date);
         $new_student->save();
-        return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));
+        return $app->redirect('/students');
     });
 
-return $app;
+    $app->get('/courses', function() use ($app) {
+        return $app['twig']->render('courses.html.twig', ['courses' => Course::getAll()]);
+    });
 
+    $app->post('/course_add', function() use ($app) {
+        $name = $_POST['name'];
+        $number = $_POST['number'];
+        $new_course = new Course($name, $number);
+        $new_course->save();
+        return $app->redirect('/courses');
+    });
+
+    return $app;
 ?>
