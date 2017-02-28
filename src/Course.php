@@ -38,6 +38,28 @@ class Course
         return $this->id;
     }
 
+    function addStudent($student_id)
+    {
+        $GLOBALS['DB']->exec("INSERT INTO students_courses (student_id, course_id) VALUES ({$student_id}, {$this->getId()});");
+    }
+
+    function getStudents()
+    {
+        $returned_students = $GLOBALS['DB']->query("SELECT students.* FROM courses
+            JOIN students_courses ON (students_courses.course_id = courses.id)
+            JOIN students ON (students.id = students_courses.student_id)
+            WHERE courses.id = {$this->getId()};");
+        $students = [];
+        foreach ($returned_students as $student) {
+            $name = $student['name'];
+            $enrollment_date = $student['enrollment_date'];
+            $id = $student['id'];
+            $new_student = new Student($name, $enrollment_date, $id);
+            array_push($students, $new_student);
+        }
+        return $students;
+    }
+
     function save()
     {
         $exec = $GLOBALS['DB']->prepare("INSERT INTO courses (name, number) VALUES (:name, :number);");
