@@ -41,19 +41,19 @@
             //Arrange
             $name = "Tennyson Wunderbar";
             $date = "2013-12-23";
-            $test_Student = new Student($name, $date);
-            $test_Student->save();
+            $test_student = new Student($name, $date);
+            $test_student->save();
 
             $name = "Sandra Handerson";
             $date = "2016-02-12";
-            $test_Student2 = new Student($name, $date);
-            $test_Student2->save();
+            $test_student2 = new Student($name, $date);
+            $test_student2->save();
 
             //Act
             $result = Student::getAll();
 
             //Assert
-            $this->assertEquals([$test_Student, $test_Student2], $result);
+            $this->assertEquals([$test_student, $test_student2], $result);
         }
 
         function test_addCourse()
@@ -87,9 +87,8 @@
 
             $name = "Sandra Handerson";
             $date = "2016-02-12";
-            $test_Student2 = new Student($name, $date);
-            $test_Student2->save();
-
+            $test_student2 = new Student($name, $date);
+            $test_student2->save();
 
             $name = "Math 2: the Sequel";
             $number = "MAT200";

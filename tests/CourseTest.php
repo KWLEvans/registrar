@@ -75,6 +75,39 @@ class CourseTest extends PHPUnit_Framework_TestCase
         //Assert
         $this->assertEquals($test_student, $result[0]);
     }
+
+    function test_getStudents()
+    {
+        //Arrange
+        $name = "Tennyson Wunderbar";
+        $date = "2013-12-23";
+        $test_student = new Student($name, $date);
+        $test_student->save();
+
+        $name = "Sandra Handerson";
+        $date = "2016-02-12";
+        $test_student2 = new Student($name, $date);
+        $test_student2->save();
+
+
+        $name = "Math 2: the Sequel";
+        $number = "MAT200";
+        $test_course = new Course($name, $number);
+        $test_course->save();
+
+        $name = "Physics of School";
+        $number = "PHY001";
+        $test_course2 = new Course($name, $number);
+        $test_course2->save();
+
+        //Act
+        $test_course->addStudent($test_student->getId());
+        $test_course->addStudent($test_student2->getId());
+        $result = $test_course->getStudents();
+
+        //Assert
+        $this->assertEquals([$test_student, $test_student2], $result);
+    }
 }
 
 ?>
