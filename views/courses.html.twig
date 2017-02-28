@@ -8,7 +8,7 @@
     {% if courses is not empty %}
     <ul>
         {% for course in courses %}
-        <li>{{ course.getName }}
+        <li><a href='/courses/{{ course.getId }}'>{{ course.getName }}</a>
             <ul>
                 <li>{{ course.getNumber }}</li>
             </ul>
@@ -16,5 +16,7 @@
         {% endfor %}
     </ul>
     {% endif %}
+
+
 
 {% endblock %}

@@ -73,6 +73,13 @@ class Course
         $this->id = $GLOBALS['DB']->lastInsertId();
     }
 
+    static function find($id)
+    {
+        $found_course = $GLOBALS['DB']->query("SELECT * FROM courses WHERE id = {$id};");
+        $course = $found_course->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Course', ['name', 'number', 'id']);
+        return $course[0];
+    }
+
     static function getAll()
     {
         $returned_courses = $GLOBALS['DB']->query("SELECT * FROM courses;");

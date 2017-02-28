@@ -36,6 +36,11 @@
         return $app['twig']->render('courses.html.twig', ['courses' => Course::getAll()]);
     });
 
+    $app->get('/courses/{id}', function($id) use ($app) {
+        $course = Course::find($id);
+        return $app['twig']->render('course.html.twig', ['course' => $course, 'students' => $course->getStudents()]);
+    });
+
     $app->post('/course_add', function() use ($app) {
         $name = $_POST['name'];
         $number = $_POST['number'];

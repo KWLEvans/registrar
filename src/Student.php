@@ -73,6 +73,13 @@
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
+        static function find($id)
+        {
+            $found_student = $GLOBALS['DB']->query("SELECT * FROM students WHERE id = {$id};");
+            $student = $found_student->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student', ['name', 'enrollment_date', 'id']);
+            return $student[0];
+        }
+
         static function getAll()
         {
             $returned_students = $GLOBALS['DB']->query("SELECT * FROM students;");

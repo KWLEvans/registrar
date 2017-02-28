@@ -145,6 +145,26 @@
             //Assert
             $this->assertEquals('Rasmus Lerdorf', $result);
         }
+
+        function test_find()
+        {
+            //Arrange
+            $name = "Tennyson Wunderbar";
+            $date = "2013-12-23";
+            $test_student = new Student($name, $date);
+            $test_student->save();
+
+            $name = "Sandra Handerson";
+            $date = "2016-02-12";
+            $test_student2 = new Student($name, $date);
+            $test_student2->save();
+
+            //Act
+            $result = Student::find($test_student2->getId());
+
+            //Assert
+            $this->assertEquals($test_student2, $result);
+        }
     }
 
 ?>
