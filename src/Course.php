@@ -53,6 +53,19 @@ class Course
         return $students;
     }
 
+    function updateName($new_name)
+    {
+        $this->setName($new_name);
+        $exec = $GLOBALS['DB']->prepare("UPDATE courses SET name = :name WHERE id = :id");
+        $exec->execute([':name' => $this->getName(), ':id' => $this->getId()]);
+    }
+
+    function delete()
+    {
+        $GLOBALS['DB']->exec("DELETE FROM courses where id = {$this->getId()};");
+        $GLOBALS['DB']->exec("DELETE FROM students_courses where course_id = {$this->getId()};");
+    }
+
     function save()
     {
         $exec = $GLOBALS['DB']->prepare("INSERT INTO courses (name, number) VALUES (:name, :number);");
