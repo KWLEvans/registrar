@@ -17,6 +17,9 @@
     </ul>
     {% endif %}
 
-
+    <form action="/courses" method="post">
+        <input name="_method" type="hidden" value="delete">
+        <button type="submit">Delete All Courses</button>
+    </form>
 
 {% endblock %}

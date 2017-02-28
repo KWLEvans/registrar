@@ -20,7 +20,7 @@ class Course
 
     function setName($new_name)
     {
-        $this->$name = $new_name;
+        $this->name = $new_name;
     }
 
     function getNumber()
@@ -49,7 +49,11 @@ class Course
             JOIN students_courses ON (students_courses.course_id = courses.id)
             JOIN students ON (students.id = students_courses.student_id)
             WHERE courses.id = {$this->getId()};");
-        $students = $returned_students->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student', ['name', 'enrollment_date', 'id']);
+        if ($returned_students) {
+            $students = $returned_students->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Student', ['name', 'enrollment_date', 'id']);
+        } else {
+            $students = [];
+        }
         return $students;
     }
 

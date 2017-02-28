@@ -8,7 +8,7 @@
     {% if students is not empty %}
     <ul>
         {% for student in students %}
-        <li>{{ student.getName }}
+        <li><a href="/students/{{ student.getId }}">{{ student.getName }}</a>
             <ul>
                 <li>{{ student.getEnrollmentDate }}</li>
             </ul>

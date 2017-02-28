@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ course.getNumber }}{% endblock %}
+
+{% block content %}
+    <h3>{{ course.getNumber }}: {{ course.getName }}</h3>
+
+    <h4><a href='/courses/{{ course.getId }}/edit'>Edit this course!</a></h4>
+
+    {% if students is not empty %}
+    <h4>Enrolled Students:</h4>
+    <ul>
+        {% for student in students %}
+        <li><a href='/students/{{ student.getId }}'>{{ student.getName }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+{% endblock %}

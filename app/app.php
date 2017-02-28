@@ -16,12 +16,26 @@
     $password = 'root';
     $DB = new PDO($server, $username, $password);
 
+    use Symfony\Component\HttpFoundation\Request;
+    Request::enableHttpMethodParameterOverride();
+
     $app->get('/', function() use ($app) {
         return $app['twig']->render('home.html.twig');
     });
 
     $app->get('/students', function() use ($app) {
         return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));
+    });
+
+    $app->get('/students/{id}', function($id) use ($app) {
+        $student = Student::find($id);
+        return $app['twig']->render('student.html.twig', array('student' => $student, 'courses' => $student->getCourses(), 'all_courses' => Course::getAll()));
+    });
+
+    $app->post('/students/{id}/enroll', function($id) use ($app) {
+        $student = Student::find($id);
+        $student->addCourse($_POST['course']);
+        return $app->redirect('/students/'.$id);
     });
 
     $app->post('/student_add', function() use ($app) {
@@ -36,9 +50,32 @@
         return $app['twig']->render('courses.html.twig', ['courses' => Course::getAll()]);
     });
 
+    $app->delete('/courses', function() use ($app) {
+        Course::deleteAll();
+        return $app->redirect('/courses');
+    });
+
     $app->get('/courses/{id}', function($id) use ($app) {
         $course = Course::find($id);
         return $app['twig']->render('course.html.twig', ['course' => $course, 'students' => $course->getStudents()]);
+    });
+
+    $app->get('/courses/{id}/edit', function($id) use ($app) {
+        $course = Course::find($id);
+        return $app['twig']->render('edit_course.html.twig', ['course' => $course]);
+    });
+
+    $app->patch('/courses/{id}', function($id) use ($app) {
+        $course = Course::find($id);
+        $name = $_POST['name'];
+        $course->updateName($name);
+        return $app->redirect('/courses/'.$id);
+    });
+
+    $app->delete('/courses/{id}', function($id) use ($app) {
+        $course = Course::find($id);
+        $course->delete();
+        return $app->redirect('/courses');
     });
 
     $app->post('/course_add', function() use ($app) {

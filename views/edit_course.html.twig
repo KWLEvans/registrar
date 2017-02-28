@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Edit {{ course.getNumber }}{% endblock %}
+
+{% block content %}
+    <h3>{{ course.getNumber }}: {{ course.getName }}</h3>
+
+    <p>Edit Course:</p>
+    <form action="/courses/{{ course.getId }}" method="post">
+        <input name="_method" type="hidden" value="patch">
+
+        <label for="name">Course name:</label>
+        <input type="text" name="name" id="name" value="{{ course.getName }}">
+
+        <button type="submit" name="button">Add</button>
+    </form>
+
+    <form action="/courses/{{course.getId}}" method="post">
+        <input name="_method" type="hidden" value="delete">
+        <button type="submit">Delete Course</button>
+    </form>
+
+{% endblock %}

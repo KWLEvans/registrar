@@ -49,7 +49,11 @@
                 JOIN students_courses ON (students_courses.student_id = students.id)
                 JOIN courses ON (courses.id = students_courses.course_id)
                 WHERE students.id = {$this->getId()};");
-            $courses = $returned_courses->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Course', ['name', 'number', 'id']);
+            if ($returned_courses) {
+                $courses = $returned_courses->fetchAll(PDO::FETCH_CLASS|PDO::FETCH_PROPS_LATE, 'Course', ['name', 'number', 'id']);
+            } else {
+                $courses = [];
+            }
             return $courses;
         }
 
