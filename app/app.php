@@ -27,6 +27,11 @@
         return $app['twig']->render('students.html.twig', array('students' => Student::getAll()));
     });
 
+    $app->delete('/students', function() use ($app) {
+        Student::deleteAll();
+        return $app->redirect('/');
+    });
+
     $app->get('/students/{id}', function($id) use ($app) {
         $student = Student::find($id);
         return $app['twig']->render('student.html.twig', array('student' => $student, 'courses' => $student->getCourses(), 'all_courses' => Course::getAll()));
@@ -52,7 +57,7 @@
 
     $app->delete('/courses', function() use ($app) {
         Course::deleteAll();
-        return $app->redirect('/courses');
+        return $app->redirect('/');
     });
 
     $app->get('/courses/{id}', function($id) use ($app) {
